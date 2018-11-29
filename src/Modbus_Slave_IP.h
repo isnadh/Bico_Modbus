@@ -650,8 +650,8 @@ void IP_ADU_incomingHandling(uint8_t* ADU, uint16_t length)
 
 			uint16_t response_starting_address;
 			uint16_t response_quantity_of_outputst;
-
-			if( (response_quantity_of_outputst >= 0x0001) && (response_quantity_of_outputst <= 0x07B0) && (request_byte_count == (response_quantity_of_outputst/8 + (response_quantity_of_outputst % 8)? 1:0)) )
+			
+			if( (request_quantity_of_outputs >= 0x0001) && (request_quantity_of_outputs <= 0x07B0) && (request_byte_count == (request_quantity_of_outputs/8 + ((request_quantity_of_outputs % 8)? 1:0))) )
 			{
 				if( request_starting_address +  request_quantity_of_outputs < SLAVE_MAX_DISCRETE_OUTPUT_COIL)
 				{

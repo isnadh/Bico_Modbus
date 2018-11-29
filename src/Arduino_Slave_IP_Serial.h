@@ -14,6 +14,7 @@ class Arduino_Slave_IP_Serial
 	public:
 		Arduino_Slave_IP_Serial();
 		void begin(long baud);
+		void begin(long baud, uint8_t config);
 		void fullHanlde();
 
 	private:
@@ -31,6 +32,12 @@ void Arduino_Slave_IP_Serial::begin(long baud)
 {
 	Serial.begin(baud);
 	_baud_period_x15 = 1000000*15/baud;
+}
+
+void Arduino_Slave_IP_Serial::begin(long baud, uint8_t config)
+{
+	Serial.begin(baud, config);
+	_baud_period_x15 = 1000000*15/baud;	
 }
 
 void Arduino_Slave_IP_Serial::fullHanlde()

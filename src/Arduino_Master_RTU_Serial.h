@@ -14,7 +14,8 @@ class Arduino_Master_RTU_Serial
 
 
 		void begin(long baud);
-		uint8_t available();
+		void begin(long baud, uint8_t config);
+		int available();
 
 
 		void RTUSerialReadCoilsRequest(uint8_t slave_id, uint16_t starting_address, uint16_t quantity_of_coils);
@@ -29,8 +30,8 @@ class Arduino_Master_RTU_Serial
 		void RTUSerialWriteMultipleRegistersRequest(uint8_t slave_id, uint16_t starting_address, uint16_t quantity_of_registers, uint8_t byte_count/* =N* x 2Byte*/, register_t* registers_value);
 
 
-		uint16_t RTUSerialGetTransactionID();
 		uint16_t RTUSerialGetResposeSlaveID();
+		uint16_t RTUSerialGetCRC();
 		void RTUSerialGetPDU(uint8_t* PDU_buffer, uint8_t* PDU_length);
 
 
@@ -93,7 +94,13 @@ void Arduino_Master_RTU_Serial::begin(long baud)
 	_baud_period_x15 = 1000000*15/baud;
 }
 
-uint8_t Arduino_Master_RTU_Serial::available()
+void Arduino_Master_RTU_Serial::begin(long baud, uint8_t config)
+{
+	Serial.begin(baud, config);
+	_baud_period_x15 = 1000000*15/baud;	
+}
+
+int Arduino_Master_RTU_Serial::available()
 {
 	if(Serial.available())
 	{
@@ -195,20 +202,21 @@ void Arduino_Master_RTU_Serial::RTUSerialWriteMultipleRegistersRequest(uint8_t s
 
 
 
-uint16_t Arduino_Master_RTU_Serial::RTUSerialGetTransactionID()
-{
-	return RTU_ADU_getTransactionID(response_ADU_buffer);
-}
-
 uint16_t Arduino_Master_RTU_Serial::RTUSerialGetResposeSlaveID()
 {
 	return RTU_ADU_getResposeSlaveID(response_ADU_buffer);
+}
+
+uint16_t Arduino_Master_RTU_Serial::RTUSerialGetCRC()
+{
+	return RTU_ADU_getCRC(response_ADU_buffer, response_ADU_buffer_length);
 }
 
 void Arduino_Master_RTU_Serial::RTUSerialGetPDU(uint8_t* PDU_buffer, uint8_t* PDU_length)
 {
 	RTU_ADU_getPDU(response_ADU_buffer, response_ADU_buffer_length, PDU_buffer, PDU_length);
 }
+
 
 
 

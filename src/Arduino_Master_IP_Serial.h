@@ -14,7 +14,8 @@ class Arduino_Master_IP_Serial
 
 
 		void begin(long baud);
-		uint8_t available();
+		void begin(long baud, uint8_t config);
+		int available();
 
 
 		void IPSerialReadCoilsRequest(uint8_t slave_id, uint16_t starting_address, uint16_t quantity_of_coils);
@@ -93,7 +94,13 @@ void Arduino_Master_IP_Serial::begin(long baud)
 	_baud_period_x15 = 1000000*15/baud;
 }
 
-uint8_t Arduino_Master_IP_Serial::available()
+void Arduino_Master_IP_Serial::begin(long baud, uint8_t config)
+{
+	Serial.begin(baud, config);
+	_baud_period_x15 = 1000000*15/baud;	
+}
+
+int Arduino_Master_IP_Serial::available()
 {
 	if(Serial.available())
 	{

@@ -14,6 +14,7 @@ class Arduino_Slave_RTU_Serial
 	public:
 		Arduino_Slave_RTU_Serial();
 		void begin(long baud);
+		void begin(long baud, uint8_t config);
 		void fullHanlde();
 
 	private:
@@ -31,6 +32,12 @@ void Arduino_Slave_RTU_Serial::begin(long baud)
 {
 	Serial.begin(baud);
 	_baud_period_x15 = 1000000*15/baud;
+}
+
+void Arduino_Slave_RTU_Serial::begin(long baud, uint8_t config)
+{
+	Serial.begin(baud, config);
+	_baud_period_x15 = 1000000*15/baud;	
 }
 
 void Arduino_Slave_RTU_Serial::fullHanlde()
@@ -51,7 +58,7 @@ void Arduino_Slave_RTU_Serial::fullHanlde()
 		// get data from Serial to buffer -----------------
 
 		// handling buffer ------------------------
-		RTU_ADU_incomingRequest(incomming_message, len);  // in this step, response message is building automatically
+		RTU_ADU_incomingHandling(incomming_message, len);  // in this step, response message is building automatically
 		// handling buffer ------------------------
 
 		// response message sending ------------------------------------

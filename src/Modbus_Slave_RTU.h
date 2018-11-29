@@ -41,7 +41,7 @@ void RTU_ADU_writeMultipleRegistersExceptionResponse(uint8_t slave_id, Exception
 
 
 
-void RTU_ADU_incomingRequest(uint8_t* ADU, uint16_t length);
+void RTU_ADU_incomingHandling(uint8_t* ADU, uint16_t length);
 
 
 
@@ -324,7 +324,7 @@ void RTU_ADU_writeMultipleRegistersExceptionResponse(uint8_t slave_id, Exception
 
 
 
-void RTU_ADU_incomingRequest(uint8_t* ADU, uint16_t length)
+void RTU_ADU_incomingHandling(uint8_t* ADU, uint16_t length)
 {
 	uint8_t incoming_slave_id = ADU[0];
 	uint16_t receive_crc = ((uint16_t)ADU[length-1] << 8) | ADU[length-2];
@@ -475,7 +475,7 @@ void RTU_ADU_incomingRequest(uint8_t* ADU, uint16_t length)
 					uint16_t response_output_address;
 					uint16_t response_output_value;
 
-					if( (request_output_value == 0x0000) || (request_output_value == 0x00FF) )
+					if( (request_output_value == 0x0000) || (request_output_value == 0xFF00) )
 					{
 						if( request_output_address < SLAVE_MAX_DISCRETE_OUTPUT_COIL)
 						{
@@ -542,7 +542,7 @@ void RTU_ADU_incomingRequest(uint8_t* ADU, uint16_t length)
 					uint16_t response_starting_address;
 					uint16_t response_quantity_of_outputst;
 
-					if( (response_quantity_of_outputst >= 0x0001) && (response_quantity_of_outputst <= 0x07B0) && (request_byte_count == (response_quantity_of_outputst/8 + (response_quantity_of_outputst % 8)? 1:0)) )
+					if( (request_quantity_of_outputs >= 0x0001) && (request_quantity_of_outputs <= 0x07B0) && (request_byte_count == (request_quantity_of_outputs/8 + ((request_quantity_of_outputs % 8)? 1:0))) )
 					{
 						if( request_starting_address +  request_quantity_of_outputs < SLAVE_MAX_DISCRETE_OUTPUT_COIL)
 						{
