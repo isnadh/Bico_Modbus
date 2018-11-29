@@ -26,7 +26,7 @@ void loop() {
     slave_analog_output_holding_register_list[6]+=3;
     slave_analog_output_holding_register_list[7]+=4;
     slave_analog_output_holding_register_list[8]+=5;
-    slave_analog_output_holding_register_list[9]+=6
+    slave_analog_output_holding_register_list[9]+=6;
     last_time = millis();
   }
   
