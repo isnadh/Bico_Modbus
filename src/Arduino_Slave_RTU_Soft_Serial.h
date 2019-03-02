@@ -19,7 +19,7 @@ class Arduino_Slave_RTU_Soft_Serial : SoftwareSerial
 		}
 		
 		void begin(long baud);
-		void fullHanlde();
+		virtual void fullHanlde();
 
 	private:
 		uint16_t _baud_period_x15;
@@ -50,7 +50,7 @@ void Arduino_Slave_RTU_Soft_Serial::fullHanlde()
 		// get data from Serial to buffer -----------------
 
 		// handling buffer ------------------------
-		RTU_ADU_incomingRequest(incomming_message, len);  // in this step, response message is building automatically
+		RTU_ADU_incomingHandling(incomming_message, len);  // in this step, response message is building automatically
 		// handling buffer ------------------------
 
 		// response message sending ------------------------------------

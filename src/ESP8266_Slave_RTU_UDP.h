@@ -61,10 +61,10 @@ void ESP8266_Slave_RTU_UDP::fullHanlde()
 		see ..\ESP8266WiFi\src\include\UdpContext.h for more detail
     */
     uint8_t send_state = WiFiUDP::endPacket();
-    Serial.println(send_state); 
+    // Serial.println(send_state); 
     if(!send_state)
     {
-    	goto resend;
+    	//goto resend; // This cause Soft Watch dog
     }
   }
 }

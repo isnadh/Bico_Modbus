@@ -3,7 +3,10 @@
 
 
 //-------------------------------------------------------
-typedef short int register_t; //int <-> 16 bit in this case
+#ifndef _VARIANT_ARDUINO_STM32_ // Since STM32 core already has register_t
+typedef int16_t register_t; //int <-> 16 bit in this case
+#endif
+
 #define SIZE_OF_BYTE	8	// 1byte <-> 8bit in this case
 //-------------------------------------------------------
 
@@ -82,7 +85,7 @@ uint16_t ModRTU_CRC(uint8_t* buf, uint16_t len)
 uint8_t getBitFromArray(uint8_t* array_in, uint16_t bit_order)
 {
   //|------------------------------------------------------------------------------------------|bit_order                                 
-  //  _   _   _   _   _   _   _   _        _   _   _   _   _   _   _   _       _   _   _   _   _   _   _   _
+  //  _   _   _   _   _   _   _   _        _   _   _   _   _   _   _   _     _   _   _   _   _   _   _   _
   // |_| |_| |_| |_| |_| |_| |_| |_| .... |_| |_| |_| |_| |_| |_| |_| |_|   |_| |_| |_| |_| |o| |_| |_| |_|  ... (array_in)
   //|-------------------------------------------------------------------------|byte_index
   //                                              bit_index|------------|
@@ -96,7 +99,7 @@ uint8_t getBitFromArray(uint8_t* array_in, uint16_t bit_order)
 void setBitToArray(uint8_t* array_in, uint16_t bit_order, uint8_t value)
 {
   //|------------------------------------------------------------------------------------------|bit_order                                 
-  //  _   _   _   _   _   _   _   _        _   _   _   _   _   _   _   _       _   _   _   _   _   _   _   _
+  //  _   _   _   _   _   _   _   _        _   _   _   _   _   _   _   _     _   _   _   _   _   _   _   _
   // |_| |_| |_| |_| |_| |_| |_| |_| .... |_| |_| |_| |_| |_| |_| |_| |_|   |_| |_| |_| |_| |o| |_| |_| |_|  ... (array_in)
   //|-------------------------------------------------------------------------|byte_index
   //                                              bit_index|------------|
